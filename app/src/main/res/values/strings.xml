@@ -1,2 +1,3 @@
 <resources>
+    <string name="failed_to_load_lists">Failed to load the lists</string>
 </resources>
