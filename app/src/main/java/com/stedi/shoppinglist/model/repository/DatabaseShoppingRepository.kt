@@ -7,11 +7,12 @@ import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.misc.TransactionManager
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
+import com.stedi.shoppinglist.di.AppContext
 import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import java.sql.SQLException
 
-class DatabaseShoppingRepository(context: Context, databaseName: String, databaseVersion: Int) : OrmLiteSqliteOpenHelper(context, databaseName, null, databaseVersion), ShoppingRepository {
+class DatabaseShoppingRepository(@AppContext context: Context, databaseName: String, databaseVersion: Int) : OrmLiteSqliteOpenHelper(context, databaseName, null, databaseVersion), ShoppingRepository {
 
     override fun onCreate(database: SQLiteDatabase, connectionSource: ConnectionSource) {
         try {
