@@ -34,6 +34,7 @@ class DatabaseShoppingRepository(@AppContext context: Context, databaseName: Str
     }
 
     @Synchronized
+    @Throws(Exception::class)
     override fun save(list: ShoppingList) {
         TransactionManager.callInTransaction(getConnectionSource()) {
             deleteOldItemsIfExist(list)
@@ -47,6 +48,7 @@ class DatabaseShoppingRepository(@AppContext context: Context, databaseName: Str
     }
 
     @Synchronized
+    @Throws(Exception::class)
     override fun remove(list: ShoppingList) {
         TransactionManager.callInTransaction(getConnectionSource()) {
             verifyDeleted(getDao(ShoppingList::class.java).delete(list))
@@ -58,11 +60,13 @@ class DatabaseShoppingRepository(@AppContext context: Context, databaseName: Str
     }
 
     @Synchronized
+    @Throws(Exception::class)
     override fun getNonAchieved(): List<ShoppingList> {
         return getDao(ShoppingList::class.java).queryBuilder().where().eq("achieved", false).query()
     }
 
     @Synchronized
+    @Throws(Exception::class)
     override fun getAchieved(): List<ShoppingList> {
         return getDao(ShoppingList::class.java).queryBuilder().where().eq("achieved", true).query()
     }
