@@ -1,3 +1,4 @@
 <resources>
     <string name="failed_to_load_lists">Failed to load the lists</string>
+    <string name="empty_shopping_list">There are no shopping lists yet.\nClick add to create one.</string>
 </resources>
