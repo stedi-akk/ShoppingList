@@ -3,7 +3,11 @@ package com.stedi.shoppinglist.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -19,8 +23,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     private val KEY_PRESENTER_STATE = "KEY_PRESENTER_STATE"
     private val KEY_PENDING_LIST = "KEY_PENDING_LIST"
 
-    @BindView(R.id.edit_list_activity_et)
-    lateinit var editText: EditText
+    @BindView(R.id.edit_list_activity_btn_save)
+    lateinit var btnSave: Button
+
+    @BindView(R.id.edit_list_activity_items_container)
+    lateinit var itemsContainer: ViewGroup
 
     @Inject
     lateinit var presenter: EditListPresenter
@@ -75,6 +82,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         outState.putParcelable(KEY_PENDING_LIST, pendingList)
     }
 
+    @OnClick(R.id.edit_list_activity_items_container_add)
+    fun onAddItemClick(v: View) {
+        inflateNewContainerItem(layoutInflater)
+    }
+
     @OnClick(R.id.edit_list_activity_btn_save)
     fun onSaveClick(v: View) {
         presenter.save(pendingList)
@@ -89,10 +101,21 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     }
 
     private fun showPendingList() {
-        val sb = StringBuilder()
+        itemsContainer.removeAllViews()
+        val inflater = layoutInflater
         for (item in pendingList.items) {
-            sb.append(item.name).append("\n")
+            val itemView = inflateNewContainerItem(inflater)
+            itemView.findViewById<EditText>(R.id.shopping_item_et).setText(item.name)
+            itemView.findViewById<CheckBox>(R.id.shopping_item_cb).isChecked = item.achieved
         }
-        editText.setText(sb.toString())
+    }
+
+    private fun inflateNewContainerItem(inflater: LayoutInflater): View {
+        val itemView = inflater.inflate(R.layout.shopping_item, itemsContainer, false)
+        itemView.findViewById<View>(R.id.shopping_item_btn_delete).setOnClickListener {
+            itemsContainer.removeView(itemView)
+        }
+        itemsContainer.addView(itemView)
+        return itemView
     }
 }

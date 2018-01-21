@@ -5,6 +5,7 @@ import com.squareup.otto.ThreadEnforcer
 import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
+import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -23,6 +24,11 @@ class EditListPresenterImplTest {
     }
 
     @Test
+    fun testNewListIsNotEmpty() {
+        assertFalse(presenter.newList().items.isEmpty())
+    }
+
+    @Test
     fun testSaveList() {
         presenter.attach(view)
 
@@ -38,7 +44,7 @@ class EditListPresenterImplTest {
     fun testSaveListFail() {
         presenter.attach(view)
 
-        val list = ShoppingList()
+        val list = presenter.newList()
         `when`(repository.save(list)).thenThrow(Exception("fail"))
         presenter.save(list)
 

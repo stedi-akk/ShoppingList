@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/common_v_spacing"
-            app:srcCompat="@drawable/ic_shopping_cart" />
+            app:srcCompat="@drawable/ic_shopping_cart_big" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -3,5 +3,6 @@
     <string name="empty_shopping_list">There are no shopping lists yet.\nClick add to create one.</string>
     <string name="save">Save</string>
     <string name="done">Done</string>
+    <string name="add_more">Add more</string>
     <string name="failed_to_save_list">Failed to save the list</string>
 </resources>
