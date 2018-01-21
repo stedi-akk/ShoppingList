@@ -32,3 +32,11 @@ fun Context.dp2px(dp: Float): Float {
 fun Context.dp2px(@DimenRes resId: Int): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, resources.getDimensionPixelOffset(resId).toFloat(), resources.displayMetrics)
 }
+
+fun Boolean.toInt(): Int {
+    return if (this) 1 else 0
+}
+
+fun Int.toBoolean(): Boolean {
+    return this == 1
+}
