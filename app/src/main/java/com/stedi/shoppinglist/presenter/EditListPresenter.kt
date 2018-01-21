@@ -11,6 +11,8 @@ interface EditListPresenter : RetainedPresenter<EditListPresenter.UIImpl> {
     interface UIImpl : UI {
         fun onSaved()
 
+        fun showErrorEmptyList()
+
         fun onFailedToSave()
     }
 }

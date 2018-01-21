@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.stedi.shoppinglist.R
+import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.getAppComponent
 import com.stedi.shoppinglist.other.showToast
@@ -22,9 +22,6 @@ import javax.inject.Inject
 class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     private val KEY_PRESENTER_STATE = "KEY_PRESENTER_STATE"
     private val KEY_PENDING_LIST = "KEY_PENDING_LIST"
-
-    @BindView(R.id.edit_list_activity_btn_save)
-    lateinit var btnSave: Button
 
     @BindView(R.id.edit_list_activity_items_container)
     lateinit var itemsContainer: ViewGroup
@@ -68,7 +65,12 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
             pendingList = intent.getParcelableExtra(KEY_EXTRA_LIST) ?: presenter.newList()
         }
 
-        showPendingList()
+        showTheList()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pendingList.items = getItemsFromView()
     }
 
     override fun onDestroy() {
@@ -89,6 +91,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     @OnClick(R.id.edit_list_activity_btn_save)
     fun onSaveClick(v: View) {
+        pendingList.items = getItemsFromView()
         presenter.save(pendingList)
     }
 
@@ -100,7 +103,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         showToast(R.string.failed_to_save_list)
     }
 
-    private fun showPendingList() {
+    override fun showErrorEmptyList() {
+        showToast(R.string.please_add_items)
+    }
+
+    private fun showTheList() {
         itemsContainer.removeAllViews()
         val inflater = layoutInflater
         for (item in pendingList.items) {
@@ -117,5 +124,19 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         }
         itemsContainer.addView(itemView)
         return itemView
+    }
+
+    private fun getItemsFromView(): List<ShoppingItem> {
+        val items = ArrayList<ShoppingItem>()
+        for (i in 0 until itemsContainer.childCount) {
+            val itemView = itemsContainer.getChildAt(i)
+            val itemName = itemView.findViewById<EditText>(R.id.shopping_item_et).text.toString().trim()
+            if (itemName.isEmpty()) {
+                continue
+            }
+            val itemAchieved = itemView.findViewById<CheckBox>(R.id.shopping_item_cb).isChecked
+            items.add(ShoppingItem(name = itemName, achieved = itemAchieved))
+        }
+        return items
     }
 }

@@ -29,11 +29,23 @@ class EditListPresenterImplTest {
     }
 
     @Test
+    fun testSaveListEmpty() {
+        presenter.attach(view)
+
+        val items = emptyList<ShoppingItem>()
+        val list = ShoppingList(items = items)
+        presenter.save(list)
+
+        verify(view, times(1)).showErrorEmptyList()
+        verifyNoMoreInteractions(view)
+    }
+
+    @Test
     fun testSaveList() {
         presenter.attach(view)
 
         val items = listOf(ShoppingItem(name = "name2", achieved = false), ShoppingItem(name = "name3", achieved = true))
-        val list = ShoppingList(items = items, achieved = false)
+        val list = ShoppingList(items = items)
         presenter.save(list)
 
         verify(view, times(1)).onSaved()

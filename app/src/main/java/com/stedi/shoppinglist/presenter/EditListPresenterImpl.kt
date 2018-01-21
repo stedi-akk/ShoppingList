@@ -49,6 +49,11 @@ class EditListPresenterImpl(
             return
         }
 
+        if (list.items.isEmpty()) {
+            view?.showErrorEmptyList()
+            return
+        }
+
         saving = true
         list.modified = System.currentTimeMillis()
 

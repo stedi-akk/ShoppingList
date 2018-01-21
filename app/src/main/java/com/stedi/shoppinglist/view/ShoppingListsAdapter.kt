@@ -44,9 +44,10 @@ class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.A
         holder.itemsContainer.removeAllViews()
         val inflater = LayoutInflater.from(holder.itemView.context)
         for (item in list[position].items) {
-            val itemView = inflater.inflate(R.layout.shopping_item_simple, holder.itemsContainer, true)
+            val itemView = inflater.inflate(R.layout.shopping_item_simple, holder.itemsContainer, false)
             itemView.findViewById<CheckBox>(R.id.shopping_item_simple_cb).isChecked = item.achieved
             itemView.findViewById<TextView>(R.id.shopping_item_simple_tv).text = item.name
+            holder.itemsContainer.addView(itemView)
         }
 
         holder.itemView.setOnClickListener(holder)

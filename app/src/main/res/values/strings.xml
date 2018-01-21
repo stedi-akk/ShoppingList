@@ -5,4 +5,5 @@
     <string name="done">Done</string>
     <string name="add_more">Add more</string>
     <string name="failed_to_save_list">Failed to save the list</string>
+    <string name="please_add_items">Please add non empty items</string>
 </resources>
