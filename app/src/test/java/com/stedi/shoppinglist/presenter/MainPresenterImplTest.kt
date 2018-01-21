@@ -2,6 +2,7 @@ package com.stedi.shoppinglist.presenter
 
 import com.squareup.otto.Bus
 import com.squareup.otto.ThreadEnforcer
+import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
 import org.junit.Before
@@ -22,10 +23,18 @@ class MainPresenterImplTest {
     }
 
     @Test
-    fun testFetchListsEmpty() {
+    fun testFetchLists() {
         presenter.attach(view)
 
-        val list = emptyList<ShoppingList>()
+        var list = emptyList<ShoppingList>()
+        `when`(repository.getNonAchieved()).thenReturn(list)
+        presenter.fetchLists()
+
+        verify(view, times(1)).onLoaded(list)
+
+        val items1 = listOf(ShoppingItem(name = "name1", achieved = false))
+        val items2 = listOf(ShoppingItem(name = "name2", achieved = false), ShoppingItem(name = "name3", achieved = true))
+        list = listOf(ShoppingList(modified = 1L, items = items1, achieved = false), ShoppingList(modified = 2L, items = items2, achieved = false))
         `when`(repository.getNonAchieved()).thenReturn(list)
         presenter.fetchLists()
 
