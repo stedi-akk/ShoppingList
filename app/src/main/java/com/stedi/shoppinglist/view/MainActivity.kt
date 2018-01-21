@@ -1,6 +1,5 @@
 package com.stedi.shoppinglist.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
@@ -88,7 +87,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
     @OnClick(R.id.main_activity_fab)
     fun onFabClick(v: View) {
-        startActivity(Intent(this, EditListActivity::class.java))
+        EditListActivity.start(this)
     }
 
     private fun refreshEmptyView() {

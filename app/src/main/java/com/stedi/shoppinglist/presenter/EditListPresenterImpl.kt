@@ -2,8 +2,10 @@ package com.stedi.shoppinglist.presenter
 
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
+import com.stedi.shoppinglist.Constants
 import com.stedi.shoppinglist.di.DefaultScheduler
 import com.stedi.shoppinglist.di.UiScheduler
+import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
 import com.stedi.shoppinglist.other.toBoolean
@@ -36,6 +38,10 @@ class EditListPresenterImpl(
     override fun detach() {
         bus.unregister(this)
         this.view = null
+    }
+
+    override fun newList(): ShoppingList {
+        return ShoppingList(items = mutableListOf(ShoppingItem(name = Constants.NEW_SHOPPING_LIST_ITEM)))
     }
 
     override fun save(list: ShoppingList) {
