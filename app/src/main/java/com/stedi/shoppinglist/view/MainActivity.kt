@@ -42,7 +42,6 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
         fab.hide(fabShowHideListener)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(ListSpaceDecoration(dp2px(R.dimen.common_v_spacing).toInt(), dp2px(R.dimen.common_lr_spacing).toInt()))
         adapter = ShoppingListsAdapter(this)
         recyclerView.adapter = adapter
@@ -81,8 +80,14 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         refreshEmptyView()
     }
 
-    override fun onListClicked() {
+    override fun onListClicked(list: ShoppingList) {
+        EditListActivity.start(this, list)
+    }
 
+    override fun onDeleteClicked(list: ShoppingList) {
+    }
+
+    override fun onDoneClicked(list: ShoppingList) {
     }
 
     @OnClick(R.id.main_activity_fab)
