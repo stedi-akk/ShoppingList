@@ -44,11 +44,27 @@ class EditListPresenterImpl(
         return ShoppingList(items = mutableListOf(ShoppingItem(name = Constants.NEW_SHOPPING_LIST_ITEM)))
     }
 
-    override fun save(list: ShoppingList) {
+    override fun save(list: ShoppingList, checkIfItemsAchieved: Boolean) {
         if (saving) {
             return
         }
 
+        if (!checkIfItemsAchieved || list.items.any { !it.achieved }) {
+            saveInternal(list, false)
+        } else {
+            view?.showSaveAsAchieved(list)
+        }
+    }
+
+    override fun saveAsAchieved(list: ShoppingList) {
+        if (saving) {
+            return
+        }
+
+        saveInternal(list, true)
+    }
+
+    private fun saveInternal(list: ShoppingList, asAchieved: Boolean) {
         if (list.items.isEmpty()) {
             view?.showErrorEmptyList()
             return
@@ -56,6 +72,10 @@ class EditListPresenterImpl(
 
         saving = true
         list.modified = System.currentTimeMillis()
+        if (asAchieved) {
+            list.achieved = true
+            list.items.forEach { it.achieved = true }
+        }
 
         Observable.fromCallable { repository.save(list) }
                 .subscribeOn(subscribeOn)

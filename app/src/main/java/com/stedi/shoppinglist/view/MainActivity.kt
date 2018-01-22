@@ -75,32 +75,9 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         outState.putSerializable(KEY_PRESENTER_STATE, presenter.retain())
     }
 
-    override fun onLoaded(list: List<ShoppingList>) {
-        fab.show(fabShowHideListener)
-        adapter.set(list)
-        refreshEmptyView()
-    }
-
-    override fun onDeleted(list: ShoppingList) {
-        showToast(R.string.deleted, Toast.LENGTH_SHORT)
-        presenter.fetchLists()
-    }
-
-    override fun showConfirmDelete(list: ShoppingList) {
-        val bundle = Bundle()
-        bundle.putParcelable(KEY_LIST_TO_DELETE, list)
-        ConfirmDialog.newInstance(REQUEST_DELETE_LIST, getString(R.string.confirm), getString(R.string.confirm_delete), bundle)
-                .show(supportFragmentManager)
-    }
-
-    override fun onFailedToLoad() {
-        fab.show(fabShowHideListener)
-        showToast(R.string.failed_to_load_lists)
-        refreshEmptyView()
-    }
-
-    override fun onFailedToDelete(list: ShoppingList) {
-        showToast(R.string.failed_to_delete_list)
+    @OnClick(R.id.main_activity_fab)
+    fun onFabClick(v: View) {
+        EditListActivity.start(this)
     }
 
     override fun onListClicked(list: ShoppingList) {
@@ -115,6 +92,34 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
     }
 
+    override fun onLoaded(list: List<ShoppingList>) {
+        fab.show(fabShowHideListener)
+        adapter.set(list)
+        refreshEmptyView()
+    }
+
+    override fun onDeleted(list: ShoppingList) {
+        showToast(R.string.deleted, Toast.LENGTH_SHORT)
+        presenter.fetchLists()
+    }
+
+    override fun showConfirmDelete(list: ShoppingList) {
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_LIST_TO_DELETE, list)
+        ConfirmDialog.newInstance(REQUEST_DELETE_LIST, messageId = R.string.confirm_delete, bundle = bundle)
+                .show(supportFragmentManager)
+    }
+
+    override fun onFailedToLoad() {
+        fab.show(fabShowHideListener)
+        showToast(R.string.failed_to_load_lists)
+        refreshEmptyView()
+    }
+
+    override fun onFailedToDelete(list: ShoppingList) {
+        showToast(R.string.failed_to_delete_list)
+    }
+
     @Subscribe
     fun onConfirmDialogCallback(callback: ConfirmDialog.Callback) {
         if (callback.confirmed && callback.requestCode == REQUEST_DELETE_LIST) {
@@ -125,11 +130,6 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
             val listToDelete: ShoppingList = callback.bundle.getParcelable(KEY_LIST_TO_DELETE)
             presenter.confirmDelete(listToDelete)
         }
-    }
-
-    @OnClick(R.id.main_activity_fab)
-    fun onFabClick(v: View) {
-        EditListActivity.start(this)
     }
 
     private fun refreshEmptyView() {

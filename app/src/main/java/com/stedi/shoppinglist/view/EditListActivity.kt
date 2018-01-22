@@ -12,6 +12,7 @@ import android.widget.EditText
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.squareup.otto.Subscribe
 import com.stedi.shoppinglist.R
 import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
@@ -23,6 +24,8 @@ import javax.inject.Inject
 class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     private val KEY_PRESENTER_STATE = "KEY_PRESENTER_STATE"
     private val KEY_PENDING_LIST = "KEY_PENDING_LIST"
+
+    private val REQUEST_AS_ACHIEVED_LIST = 123
 
     @BindView(R.id.edit_list_activity_items_container)
     lateinit var itemsContainer: ViewGroup
@@ -47,6 +50,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this)
+        bus.register(this)
 
         setContentView(R.layout.edit_list_activity)
         ButterKnife.bind(this)
@@ -87,6 +91,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+        bus.unregister(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -106,6 +111,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         presenter.save(pendingList)
     }
 
+    override fun showSaveAsAchieved(list: ShoppingList) {
+        ConfirmDialog.newInstance(REQUEST_AS_ACHIEVED_LIST, messageId = R.string.confirm_save_as_achieved, confirmId = R.string.yes, cancelId = R.string.no)
+                .show(supportFragmentManager)
+    }
+
     override fun onSaved() {
         finish()
     }
@@ -116,6 +126,17 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     override fun showErrorEmptyList() {
         showToast(R.string.please_add_items)
+    }
+
+    @Subscribe
+    fun onConfirmDialogCallback(callback: ConfirmDialog.Callback) {
+        if (callback.requestCode == REQUEST_AS_ACHIEVED_LIST) {
+            if (callback.confirmed) {
+                presenter.saveAsAchieved(pendingList)
+            } else {
+                presenter.save(pendingList, false)
+            }
+        }
     }
 
     private fun showTheList() {
