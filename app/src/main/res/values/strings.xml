@@ -1,12 +1,12 @@
 <resources>
     <string name="failed_to_load_lists">Failed to load the lists</string>
     <string name="failed_to_delete_list">Failed to delete the list</string>
-    <string name="empty_shopping_lists">There are no shopping lists yet.\nClick add to create one.</string>
+    <string name="empty_shopping_lists">There are no shopping lists yet.\nClick add to create one :)</string>
     <string name="save">Save</string>
     <string name="bought">Bought</string>
     <string name="add_more">Add more</string>
     <string name="failed_to_save_list">Failed to save the list</string>
-    <string name="please_add_items">Please add non empty items</string>
+    <string name="please_add_items">Sorry, you cannot save empty list!</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>

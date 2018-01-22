@@ -49,6 +49,11 @@ class EditListPresenterImpl(
             return
         }
 
+        if (list.items.isEmpty()) {
+            view?.showErrorEmptyList()
+            return
+        }
+
         if (!checkIfItemsAchieved || list.items.any { !it.achieved }) {
             saveInternal(list, false)
         } else {
@@ -61,16 +66,17 @@ class EditListPresenterImpl(
             return
         }
 
-        saveInternal(list, true)
-    }
-
-    private fun saveInternal(list: ShoppingList, asAchieved: Boolean) {
         if (list.items.isEmpty()) {
             view?.showErrorEmptyList()
             return
         }
 
+        saveInternal(list, true)
+    }
+
+    private fun saveInternal(list: ShoppingList, asAchieved: Boolean) {
         saving = true
+
         list.modified = System.currentTimeMillis()
         if (asAchieved) {
             list.achieved = true
