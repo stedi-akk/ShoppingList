@@ -10,6 +10,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.stedi.shoppinglist.R
 import com.stedi.shoppinglist.model.ShoppingList
+import com.stedi.shoppinglist.other.asDateFormat
 
 class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
     private val list: MutableList<ShoppingList> = ArrayList()
@@ -39,7 +40,7 @@ class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.shoppingList = list[position]
 
-        holder.tvModified.setText(list[position].modified.toString())
+        holder.tvModified.text = list[position].modified.asDateFormat()
 
         holder.itemsContainer.removeAllViews()
         val inflater = LayoutInflater.from(holder.itemView.context)

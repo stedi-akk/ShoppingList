@@ -65,7 +65,7 @@ class MainPresenterImpl(
             event.t.printStackTrace()
             view.onFailedToLoad()
         } else {
-            view.onLoaded(event.list)
+            view.onLoaded(event.list.sortedByDescending { it.modified })
         }
     }
 

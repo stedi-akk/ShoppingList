@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.stedi.shoppinglist.App
 import com.stedi.shoppinglist.di.AppComponent
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Context.getAppComponent(): AppComponent {
     return if (this is App) {
@@ -39,4 +41,14 @@ fun Boolean.toInt(): Int {
 
 fun Int.toBoolean(): Boolean {
     return this == 1
+}
+
+fun Long.asDateFormat(): String {
+    return LazyCommon.dateFormat.format(Date(this))
+}
+
+private object LazyCommon {
+    val dateFormat: SimpleDateFormat by lazy {
+        SimpleDateFormat("dd.MM.yyyy HH:mm")
+    }
 }

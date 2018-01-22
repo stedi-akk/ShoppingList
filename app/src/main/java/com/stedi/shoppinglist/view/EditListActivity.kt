@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -50,6 +51,8 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         setContentView(R.layout.edit_list_activity)
         ButterKnife.bind(this)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         presenter.attach(this)
 
         savedInstanceState?.apply {
@@ -66,6 +69,14 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         }
 
         showTheList()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPause() {
@@ -112,8 +123,14 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         val inflater = layoutInflater
         for (item in pendingList.items) {
             val itemView = inflateNewContainerItem(inflater)
-            itemView.findViewById<EditText>(R.id.shopping_item_et).setText(item.name)
-            itemView.findViewById<CheckBox>(R.id.shopping_item_cb).isChecked = item.achieved
+            itemView.findViewById<EditText>(R.id.shopping_item_et).apply {
+                isSaveEnabled = false
+                setText(item.name)
+            }
+            itemView.findViewById<CheckBox>(R.id.shopping_item_cb).apply {
+                isSaveEnabled = false
+                isChecked = item.achieved
+            }
         }
     }
 
