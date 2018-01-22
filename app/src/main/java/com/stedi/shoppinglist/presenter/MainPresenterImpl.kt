@@ -6,7 +6,7 @@ import com.stedi.shoppinglist.di.DefaultScheduler
 import com.stedi.shoppinglist.di.UiScheduler
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
-import com.stedi.shoppinglist.other.toBoolean
+import com.stedi.shoppinglist.other.toBooleanArray
 import rx.Observable
 import rx.Scheduler
 import java.io.Serializable
@@ -24,9 +24,12 @@ class MainPresenterImpl(
 
     class FetchListsEvent(val list: List<ShoppingList> = emptyList(), val t: Throwable? = null)
 
+    class DeleteListEvent(val list: ShoppingList, val t: Throwable? = null)
+
     private var view: MainPresenter.UIImpl? = null
 
-    private var fetching = false;
+    private var fetching = false
+    private var deleting = false
 
     override fun attach(view: MainPresenter.UIImpl) {
         this.view = view
@@ -52,6 +55,28 @@ class MainPresenterImpl(
                         { bus.post(FetchListsEvent(t = it)) })
     }
 
+    override fun delete(list: ShoppingList) {
+        if (deleting) {
+            return
+        }
+
+        view?.showConfirmDelete(list)
+    }
+
+    override fun confirmDelete(list: ShoppingList) {
+        if (deleting) {
+            return
+        }
+
+        deleting = true
+
+        Observable.fromCallable { repository.remove(list) }
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe({ bus.post(DeleteListEvent(list)) },
+                        { bus.post(DeleteListEvent(list, t = it)) })
+    }
+
     @Subscribe
     fun onFetchListsEvent(event: FetchListsEvent) {
         if (!fetching) {
@@ -59,21 +84,36 @@ class MainPresenterImpl(
         }
         fetching = false
 
-        val view = view ?: return
+        if (event.t != null) {
+            event.t.printStackTrace()
+            view?.onFailedToLoad()
+        } else {
+            view?.onLoaded(event.list.sortedByDescending { it.modified })
+        }
+    }
+
+    @Subscribe
+    fun onDeleteListEvent(event: DeleteListEvent) {
+        if (!deleting) {
+            return
+        }
+        deleting = false
 
         if (event.t != null) {
             event.t.printStackTrace()
-            view.onFailedToLoad()
+            view?.onFailedToDelete(event.list)
         } else {
-            view.onLoaded(event.list.sortedByDescending { it.modified })
+            view?.onDeleted(event.list)
         }
     }
 
     override fun restore(state: Serializable) {
-        fetching = state.toBoolean()
+        val array = state.toBooleanArray() ?: return
+        fetching = array[0]
+        deleting = array[1]
     }
 
     override fun retain(): Serializable {
-        return fetching
+        return booleanArrayOf(fetching, deleting)
     }
 }

@@ -1,9 +1,15 @@
 <resources>
     <string name="failed_to_load_lists">Failed to load the lists</string>
-    <string name="empty_shopping_list">There are no shopping lists yet.\nClick add to create one.</string>
+    <string name="failed_to_delete_list">Failed to delete the list</string>
+    <string name="empty_shopping_lists">There are no shopping lists yet.\nClick add to create one.</string>
     <string name="save">Save</string>
-    <string name="done">Done</string>
+    <string name="bought">Bought</string>
     <string name="add_more">Add more</string>
     <string name="failed_to_save_list">Failed to save the list</string>
     <string name="please_add_items">Please add non empty items</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_delete">Are you sure you want to delete this list?</string>
+    <string name="confirm">Confirm action</string>
+    <string name="deleted">Deleted</string>
 </resources>

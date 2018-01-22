@@ -71,13 +71,11 @@ class EditListPresenterImpl(
         }
         saving = false
 
-        val view = view ?: return
-
         if (event.t != null) {
             event.t.printStackTrace()
-            view.onFailedToSave()
+            view?.onFailedToSave()
         } else {
-            view.onSaved()
+            view?.onSaved()
         }
     }
 

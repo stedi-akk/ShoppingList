@@ -28,6 +28,10 @@ fun Serializable.toBoolean(default: Boolean = false): Boolean {
     return this as? Boolean ?: default
 }
 
+fun Serializable.toBooleanArray(): BooleanArray? {
+    return this as? BooleanArray
+}
+
 fun Context.dp2px(dp: Float): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
 }

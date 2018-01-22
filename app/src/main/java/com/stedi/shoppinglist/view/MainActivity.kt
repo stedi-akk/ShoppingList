@@ -5,9 +5,11 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.squareup.otto.Subscribe
 import com.stedi.shoppinglist.R
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.dp2px
@@ -18,6 +20,9 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.ClickListener {
     private val KEY_PRESENTER_STATE = "KEY_PRESENTER_STATE"
+    private val KEY_LIST_TO_DELETE = "KEY_LIST_TO_DELETE"
+
+    private val REQUEST_DELETE_LIST = 123
 
     @BindView(R.id.main_activity_recycler_view)
     lateinit var recyclerView: RecyclerView
@@ -36,6 +41,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this)
+        bus.register(this)
 
         setContentView(R.layout.main_activity)
         ButterKnife.bind(this)
@@ -61,6 +67,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onDestroy() {
         super.onDestroy()
         presenter.detach()
+        bus.unregister(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -74,10 +81,26 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         refreshEmptyView()
     }
 
+    override fun onDeleted(list: ShoppingList) {
+        showToast(R.string.deleted, Toast.LENGTH_SHORT)
+        presenter.fetchLists()
+    }
+
+    override fun showConfirmDelete(list: ShoppingList) {
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_LIST_TO_DELETE, list)
+        ConfirmDialog.newInstance(REQUEST_DELETE_LIST, getString(R.string.confirm), getString(R.string.confirm_delete), bundle)
+                .show(supportFragmentManager)
+    }
+
     override fun onFailedToLoad() {
         fab.show(fabShowHideListener)
         showToast(R.string.failed_to_load_lists)
         refreshEmptyView()
+    }
+
+    override fun onFailedToDelete(list: ShoppingList) {
+        showToast(R.string.failed_to_delete_list)
     }
 
     override fun onListClicked(list: ShoppingList) {
@@ -85,9 +108,23 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     }
 
     override fun onDeleteClicked(list: ShoppingList) {
+        presenter.delete(list)
     }
 
     override fun onDoneClicked(list: ShoppingList) {
+
+    }
+
+    @Subscribe
+    fun onConfirmDialogCallback(callback: ConfirmDialog.Callback) {
+        if (callback.confirmed && callback.requestCode == REQUEST_DELETE_LIST) {
+            if (callback.bundle == null) {
+                return
+            }
+
+            val listToDelete: ShoppingList = callback.bundle.getParcelable(KEY_LIST_TO_DELETE)
+            presenter.confirmDelete(listToDelete)
+        }
     }
 
     @OnClick(R.id.main_activity_fab)
