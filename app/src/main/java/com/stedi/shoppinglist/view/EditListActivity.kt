@@ -139,7 +139,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         itemView.findViewById<View>(R.id.shopping_item_btn_delete).setOnClickListener {
             itemsContainer.removeView(itemView)
         }
-        itemsContainer.addView(itemView)
+        itemsContainer.post { itemsContainer.addView(itemView) }
         return itemView
     }
 
