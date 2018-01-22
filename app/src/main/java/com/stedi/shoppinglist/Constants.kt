@@ -4,4 +4,5 @@ object Constants {
     val DATABASE_NAME = "shopping_database"
     val DATABASE_VERSION = 1
     val NEW_SHOPPING_LIST_ITEM = "new item"
+    val TIME_FORMAT = "dd.MM.yyyy HH:mm"
 }

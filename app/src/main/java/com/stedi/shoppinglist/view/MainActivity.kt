@@ -43,7 +43,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         fab.hide(fabShowHideListener)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(ListSpaceDecoration(dp2px(R.dimen.common_v_spacing).toInt(), dp2px(R.dimen.common_lr_spacing).toInt()))
-        adapter = ShoppingListsAdapter(this)
+        adapter = ShoppingListsAdapter(layoutInflater, this)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(recyclerScrollListener)
 

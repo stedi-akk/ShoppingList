@@ -8,7 +8,6 @@ import com.stedi.shoppinglist.other.getAppComponent
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity() {
-
     @Inject
     lateinit var bus: Bus
 

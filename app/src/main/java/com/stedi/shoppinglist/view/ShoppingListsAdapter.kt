@@ -12,7 +12,7 @@ import com.stedi.shoppinglist.R
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.asDateFormat
 
-class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
+class ShoppingListsAdapter(private val inflater: LayoutInflater, private val listener: ClickListener) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
     private val list: MutableList<ShoppingList> = ArrayList()
 
     init {
@@ -34,7 +34,7 @@ class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.shopping_list_item, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.shopping_list_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,7 +43,6 @@ class ShoppingListsAdapter(private val listener: ClickListener) : RecyclerView.A
         holder.tvModified.text = list[position].modified.asDateFormat()
 
         holder.itemsContainer.removeAllViews()
-        val inflater = LayoutInflater.from(holder.itemView.context)
         for (item in list[position].items) {
             val itemView = inflater.inflate(R.layout.shopping_item_simple, holder.itemsContainer, false)
             itemView.findViewById<CheckBox>(R.id.shopping_item_simple_cb).isChecked = item.achieved

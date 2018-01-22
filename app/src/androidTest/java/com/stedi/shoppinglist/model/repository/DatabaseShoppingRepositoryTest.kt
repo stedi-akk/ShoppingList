@@ -2,7 +2,6 @@ package com.stedi.shoppinglist.model.repository
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.stedi.shoppinglist.TestConstants.TEST_DATABASE_NAME
 import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import junit.framework.Assert.assertFalse
@@ -14,19 +13,21 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DatabaseShoppingRepositoryTest {
+    private val DATABASE_NAME = "test_database"
+
     private lateinit var repository: DatabaseShoppingRepository
 
     @Before
     fun before() {
-        repository = DatabaseShoppingRepository(InstrumentationRegistry.getTargetContext(), TEST_DATABASE_NAME, 1)
+        repository = DatabaseShoppingRepository(InstrumentationRegistry.getTargetContext(), DATABASE_NAME, 1)
     }
 
     @After
     fun after() {
-        if (InstrumentationRegistry.getTargetContext().deleteDatabase(TEST_DATABASE_NAME)) {
-            println("$TEST_DATABASE_NAME database successfully deleted")
+        if (InstrumentationRegistry.getTargetContext().deleteDatabase(DATABASE_NAME)) {
+            println("$DATABASE_NAME database successfully deleted")
         } else {
-            println("failed to delete $TEST_DATABASE_NAME")
+            println("failed to delete $DATABASE_NAME")
         }
     }
 
