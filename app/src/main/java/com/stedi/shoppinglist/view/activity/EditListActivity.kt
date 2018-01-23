@@ -117,11 +117,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
                 .show(supportFragmentManager)
     }
 
-    override fun onSaved() {
+    override fun onSaved(list: ShoppingList) {
         finish()
     }
 
-    override fun onFailedToSave() {
+    override fun onFailedToSave(list: ShoppingList) {
         showToast(R.string.failed_to_save_list)
     }
 

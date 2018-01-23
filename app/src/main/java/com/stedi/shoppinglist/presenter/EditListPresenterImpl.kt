@@ -25,7 +25,7 @@ class EditListPresenterImpl(
 
         private val bus: Bus) : EditListPresenter {
 
-    class SaveListEvent(val t: Throwable? = null)
+    class SaveListEvent(val list: ShoppingList, val t: Throwable? = null)
 
     private var view: EditListPresenter.UIImpl? = null
 
@@ -79,17 +79,18 @@ class EditListPresenterImpl(
     private fun saveInternal(list: ShoppingList, asAchieved: Boolean) {
         saving = true
 
-        list.modified = System.currentTimeMillis()
+        val copy = list.copy()
+        copy.modified = System.currentTimeMillis()
         if (asAchieved) {
-            list.achieved = true
-            list.items.forEach { it.achieved = true }
+            copy.achieved = true
+            copy.items.forEach { it.achieved = true }
         }
 
-        Observable.fromCallable { repository.save(list) }
+        Observable.fromCallable { repository.save(copy) }
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
-                .subscribe({ bus.post(SaveListEvent()) },
-                        { bus.post(SaveListEvent(it)) })
+                .subscribe({ bus.post(SaveListEvent(copy)) },
+                        { bus.post(SaveListEvent(list, it)) })
     }
 
     @Subscribe
@@ -101,9 +102,9 @@ class EditListPresenterImpl(
 
         if (event.t != null) {
             event.t.printStackTrace()
-            view?.onFailedToSave()
+            view?.onFailedToSave(event.list)
         } else {
-            view?.onSaved()
+            view?.onSaved(event.list)
         }
     }
 

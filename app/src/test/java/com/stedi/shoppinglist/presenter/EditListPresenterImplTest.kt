@@ -34,76 +34,9 @@ class EditListPresenterImplTest {
     fun testSaveListEmpty() {
         presenter.attach(view)
 
-        val items = emptyList<ShoppingItem>()
-        val list = ShoppingList(items = items)
-        presenter.save(list)
+        presenter.save(ShoppingList(items = emptyList<ShoppingItem>()))
 
         verify(view, times(1)).showErrorEmptyList()
-
-        presenter.detach()
-        verifyNoMoreInteractions(view)
-    }
-
-    @Test
-    fun testSaveList() {
-        presenter.attach(view)
-
-        val items = listOf(ShoppingItem(name = "name2", achieved = false), ShoppingItem(name = "name3", achieved = true))
-        val list = ShoppingList(items = items)
-        presenter.save(list)
-
-        verify(view, times(1)).onSaved()
-
-        presenter.detach()
-        verifyNoMoreInteractions(view)
-    }
-
-    @Test
-    fun testSaveListFail() {
-        presenter.attach(view)
-
-        val list = presenter.newList()
-        `when`(repository.save(list)).thenThrow(Exception("fail"))
-        presenter.save(list)
-
-        verify(view, times(1)).onFailedToSave()
-
-        presenter.detach()
-        verifyNoMoreInteractions(view)
-    }
-
-    @Test
-    fun testSaveListAchievedItems() {
-        presenter.attach(view)
-
-        val items = listOf(ShoppingItem(name = "a", achieved = true), ShoppingItem(name = "b", achieved = true))
-        val list = ShoppingList(items = items)
-        presenter.save(list)
-
-        verify(view, times(1)).showSaveAsAchieved(list)
-        presenter.saveAsAchieved(list)
-
-        verify(view, times(1)).onSaved()
-        assertTrue(list.achieved)
-        list.items.forEach { assertTrue(it.achieved) }
-
-        presenter.detach()
-        verifyNoMoreInteractions(view)
-    }
-
-    @Test
-    fun testSaveListAchievedItemsIgnore() {
-        presenter.attach(view)
-
-        val items = listOf(ShoppingItem(name = "a", achieved = true), ShoppingItem(name = "b", achieved = true))
-        val list = ShoppingList(items = items)
-        presenter.save(list)
-
-        verify(view, times(1)).showSaveAsAchieved(list)
-        presenter.save(list, false)
-
-        verify(view, times(1)).onSaved()
-        assertFalse(list.achieved)
 
         presenter.detach()
         verifyNoMoreInteractions(view)

@@ -10,12 +10,12 @@ interface EditListPresenter : RetainedPresenter<EditListPresenter.UIImpl> {
     fun saveAsAchieved(list: ShoppingList)
 
     interface UIImpl : UI {
-        fun onSaved()
+        fun onSaved(list: ShoppingList)
 
         fun showErrorEmptyList()
 
         fun showSaveAsAchieved(list: ShoppingList)
 
-        fun onFailedToSave()
+        fun onFailedToSave(list: ShoppingList)
     }
 }
