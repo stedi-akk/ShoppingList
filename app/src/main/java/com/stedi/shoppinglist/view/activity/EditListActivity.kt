@@ -34,6 +34,10 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     @Inject
     lateinit var presenter: EditListPresenter
 
+    private val inflater: LayoutInflater by lazy {
+        layoutInflater
+    }
+
     private lateinit var pendingList: ShoppingList
 
     companion object {
@@ -86,7 +90,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     override fun onPause() {
         super.onPause()
-        pendingList.items = getItemsFromView()
+        pendingList.items = getItemsFromView(true)
     }
 
     override fun onDestroy() {
@@ -103,12 +107,12 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     @OnClick(R.id.edit_list_activity_items_container_add)
     fun onAddItemClick(v: View) {
-        inflateNewContainerItem(layoutInflater)
+        inflateNewContainerItem()
     }
 
     @OnClick(R.id.edit_list_activity_btn_save)
     fun onSaveClick(v: View) {
-        pendingList.items = getItemsFromView()
+        pendingList.items = getItemsFromView(false)
         presenter.save(pendingList)
     }
 
@@ -145,9 +149,8 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     private fun showTheList() {
         itemsContainer.removeAllViews()
-        val inflater = layoutInflater
         for (item in pendingList.items) {
-            val itemView = inflateNewContainerItem(inflater)
+            val itemView = inflateNewContainerItem()
             itemView.findViewById<EditText>(R.id.shopping_item_et).apply {
                 isSaveEnabled = false
                 setText(item.name)
@@ -159,7 +162,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         }
     }
 
-    private fun inflateNewContainerItem(inflater: LayoutInflater): View {
+    private fun inflateNewContainerItem(): View {
         val itemView = inflater.inflate(R.layout.shopping_item, itemsContainer, false)
         itemView.findViewById<View>(R.id.shopping_item_btn_delete).setOnClickListener {
             itemsContainer.removeView(itemView)
@@ -168,12 +171,12 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         return itemView
     }
 
-    private fun getItemsFromView(): List<ShoppingItem> {
+    private fun getItemsFromView(includeEmpty: Boolean): List<ShoppingItem> {
         val items = ArrayList<ShoppingItem>()
         for (i in 0 until itemsContainer.childCount) {
             val itemView = itemsContainer.getChildAt(i)
             val itemName = itemView.findViewById<EditText>(R.id.shopping_item_et).text.toString().trim()
-            if (itemName.isEmpty()) {
+            if (!includeEmpty && itemName.isEmpty()) {
                 continue
             }
             val itemAchieved = itemView.findViewById<CheckBox>(R.id.shopping_item_cb).isChecked
