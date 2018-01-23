@@ -96,22 +96,26 @@ class MainPresenterImplTest {
     fun testRetainRestore() {
         presenter.deleting = true
         presenter.fetching = false
+        presenter.saveAsAchieved = true
 
-        val state: BooleanArray? = presenter.retain().toBooleanArray(2)
+        val state: BooleanArray? = presenter.retain().toBooleanArray(3)
         if (state == null) {
             fail()
             return
         }
 
-        assertTrue(state.size == 2)
+        assertTrue(state.size == 3)
         assertTrue(state[0] == presenter.fetching)
         assertTrue(state[1] == presenter.deleting)
+        assertTrue(state[2] == presenter.saveAsAchieved)
 
         presenter.deleting = false
         presenter.fetching = false
+        presenter.saveAsAchieved = false
 
         presenter.restore(state)
         assertFalse(presenter.fetching)
         assertTrue(presenter.deleting)
+        assertTrue(presenter.saveAsAchieved)
     }
 }

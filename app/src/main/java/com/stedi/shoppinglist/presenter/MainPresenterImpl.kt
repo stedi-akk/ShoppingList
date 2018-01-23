@@ -98,14 +98,15 @@ class MainPresenterImpl(
         }
         saveAsAchieved = true
 
-        list.modified = System.currentTimeMillis()
-        list.achieved = true
-        list.items.forEach { it.achieved = true }
+        val copy = list.copy()
+        copy.modified = System.currentTimeMillis()
+        copy.achieved = true
+        copy.items.forEach { it.achieved = true }
 
-        Observable.fromCallable { repository.save(list) }
+        Observable.fromCallable { repository.save(copy) }
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
-                .subscribe({ bus.post(SaveAsAchievedEvent(list)) },
+                .subscribe({ bus.post(SaveAsAchievedEvent(copy)) },
                         { bus.post(SaveAsAchievedEvent(list, it)) })
     }
 
