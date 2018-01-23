@@ -16,9 +16,9 @@ import com.stedi.shoppinglist.other.dp2px
 import com.stedi.shoppinglist.other.getAppComponent
 import com.stedi.shoppinglist.other.showToast
 import com.stedi.shoppinglist.presenter.MainPresenter
-import com.stedi.shoppinglist.view.dialogs.ConfirmDialog
 import com.stedi.shoppinglist.view.ListSpaceDecoration
 import com.stedi.shoppinglist.view.ShoppingListsAdapter
+import com.stedi.shoppinglist.view.dialogs.ConfirmDialog
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.ClickListener {
@@ -91,7 +91,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         presenter.delete(list)
     }
 
-    override fun onDoneClicked(list: ShoppingList) {
+    override fun onBoughtClicked(list: ShoppingList) {
 
     }
 
@@ -113,6 +113,10 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
                 .show(supportFragmentManager)
     }
 
+    override fun showConfirmSaveAsAchieved(list: ShoppingList) {
+
+    }
+
     override fun onFailedToLoad() {
         fab.show(fabShowHideListener)
         showToast(R.string.failed_to_load_lists)
@@ -121,6 +125,14 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
     override fun onFailedToDelete(list: ShoppingList) {
         showToast(R.string.failed_to_delete_list)
+    }
+
+    override fun onSavedAsAchieved(list: ShoppingList) {
+
+    }
+
+    override fun onFailedToSaveAsAchieved(list: ShoppingList) {
+
     }
 
     @Subscribe

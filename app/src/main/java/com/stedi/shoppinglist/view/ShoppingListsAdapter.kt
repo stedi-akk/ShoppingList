@@ -24,7 +24,7 @@ class ShoppingListsAdapter(private val inflater: LayoutInflater, private val lis
 
         fun onDeleteClicked(list: ShoppingList)
 
-        fun onDoneClicked(list: ShoppingList)
+        fun onBoughtClicked(list: ShoppingList)
     }
 
     fun set(list: List<ShoppingList>) {
@@ -63,7 +63,7 @@ class ShoppingListsAdapter(private val inflater: LayoutInflater, private val lis
         @BindView(R.id.shopping_list_item_btn_delete)
         lateinit var btnDelete: View
 
-        @BindView(R.id.shopping_list_item_btn_done)
+        @BindView(R.id.shopping_list_item_btn_bought)
         lateinit var btnDone: View
 
         @BindView(R.id.shopping_list_item_tv_modified)
@@ -83,7 +83,7 @@ class ShoppingListsAdapter(private val inflater: LayoutInflater, private val lis
             when (v) {
                 itemView -> listener.onListClicked(shoppingList)
                 btnDelete -> listener.onDeleteClicked(shoppingList)
-                btnDone -> listener.onDoneClicked(shoppingList)
+                btnDone -> listener.onBoughtClicked(shoppingList)
             }
         }
     }

@@ -28,8 +28,14 @@ fun Serializable.toBoolean(default: Boolean = false): Boolean {
     return this as? Boolean ?: default
 }
 
-fun Serializable.toBooleanArray(): BooleanArray? {
-    return this as? BooleanArray
+fun Serializable.toBooleanArray(size: Int): BooleanArray? {
+    if (this is BooleanArray) {
+        if (this.size != size) {
+            return null
+        }
+        return this
+    }
+    return null
 }
 
 fun Context.dp2px(dp: Float): Float {

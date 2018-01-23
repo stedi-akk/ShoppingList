@@ -97,7 +97,7 @@ class MainPresenterImplTest {
         presenter.deleting = true
         presenter.fetching = false
 
-        val state: BooleanArray? = presenter.retain().toBooleanArray()
+        val state: BooleanArray? = presenter.retain().toBooleanArray(2)
         if (state == null) {
             fail()
             return

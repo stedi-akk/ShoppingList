@@ -27,6 +27,8 @@ class MainPresenterImpl(
 
     class DeleteListEvent(val list: ShoppingList, val t: Throwable? = null)
 
+    class SaveAsAchievedEvent(val list: ShoppingList, val t: Throwable? = null)
+
     private var view: MainPresenter.UIImpl? = null
 
     @VisibleForTesting
@@ -34,6 +36,9 @@ class MainPresenterImpl(
 
     @VisibleForTesting
     var deleting = false
+
+    @VisibleForTesting
+    var saveAsAchieved = false
 
     override fun attach(view: MainPresenter.UIImpl) {
         this.view = view
@@ -49,7 +54,6 @@ class MainPresenterImpl(
         if (fetching) {
             return
         }
-
         fetching = true
 
         Observable.fromCallable { repository.getNonAchieved() }
@@ -71,7 +75,6 @@ class MainPresenterImpl(
         if (deleting) {
             return
         }
-
         deleting = true
 
         Observable.fromCallable { repository.remove(list) }
@@ -79,6 +82,31 @@ class MainPresenterImpl(
                 .observeOn(observeOn)
                 .subscribe({ bus.post(DeleteListEvent(list)) },
                         { bus.post(DeleteListEvent(list, t = it)) })
+    }
+
+    override fun saveAsAchieved(list: ShoppingList) {
+        if (saveAsAchieved) {
+            return
+        }
+
+        view?.showConfirmSaveAsAchieved(list)
+    }
+
+    override fun confirmSaveAsAchieved(list: ShoppingList) {
+        if (saveAsAchieved) {
+            return
+        }
+        saveAsAchieved = true
+
+        list.modified = System.currentTimeMillis()
+        list.achieved = true
+        list.items.forEach { it.achieved = true }
+
+        Observable.fromCallable { repository.save(list) }
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe({ bus.post(SaveAsAchievedEvent(list)) },
+                        { bus.post(SaveAsAchievedEvent(list, it)) })
     }
 
     @Subscribe
@@ -111,13 +139,29 @@ class MainPresenterImpl(
         }
     }
 
+    @Subscribe
+    fun onSaveAsAchievedEvent(event: SaveAsAchievedEvent) {
+        if (!saveAsAchieved) {
+            return
+        }
+        saveAsAchieved = false
+
+        if (event.t != null) {
+            event.t.printStackTrace()
+            view?.onFailedToSaveAsAchieved(event.list)
+        } else {
+            view?.onSavedAsAchieved(event.list)
+        }
+    }
+
     override fun restore(state: Serializable) {
-        val array = state.toBooleanArray() ?: return
+        val array = state.toBooleanArray(3) ?: return
         fetching = array[0]
         deleting = array[1]
+        saveAsAchieved = array[2]
     }
 
     override fun retain(): Serializable {
-        return booleanArrayOf(fetching, deleting)
+        return booleanArrayOf(fetching, deleting, saveAsAchieved)
     }
 }
