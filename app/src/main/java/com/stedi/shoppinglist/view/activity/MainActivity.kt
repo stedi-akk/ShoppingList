@@ -1,9 +1,12 @@
 package com.stedi.shoppinglist.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import butterknife.BindView
@@ -64,6 +67,11 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_activity, menu)
+        return true
+    }
+
     override fun onStart() {
         super.onStart()
         presenter.fetchLists()
@@ -78,6 +86,14 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(KEY_PRESENTER_STATE, presenter.retain())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_show_archive_list) {
+            startActivity(Intent(this, ArchiveActivity::class.java))
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @OnClick(R.id.main_activity_fab)

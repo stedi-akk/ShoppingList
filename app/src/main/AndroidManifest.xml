@@ -19,6 +19,8 @@
 
         <activity android:name=".view.activity.EditListActivity" />
 
+        <activity android:name=".view.activity.ArchiveActivity" />
+
     </application>
 
 </manifest>

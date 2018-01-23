@@ -18,4 +18,5 @@
     <string name="deleted">Deleted</string>
     <string name="moved_to_archive">Moved to the archive</string>
     <string name="failed_mark_as_achieved">Failed to mark as achieved</string>
+    <string name="archive">Archive</string>
 </resources>
