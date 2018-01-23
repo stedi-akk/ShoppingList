@@ -113,8 +113,11 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     }
 
     override fun showSaveAsAchieved(list: ShoppingList) {
-        ConfirmDialog.newInstance(REQUEST_AS_ACHIEVED_LIST, messageId = R.string.confirm_save_as_achieved, confirmId = R.string.yes, cancelId = R.string.no)
-                .show(supportFragmentManager)
+        ConfirmDialog.newInstance(
+                REQUEST_AS_ACHIEVED_LIST,
+                messageId = R.string.confirm_save_as_achieved,
+                confirmId = R.string.yes,
+                cancelId = R.string.no).show(supportFragmentManager)
     }
 
     override fun onSaved(list: ShoppingList) {

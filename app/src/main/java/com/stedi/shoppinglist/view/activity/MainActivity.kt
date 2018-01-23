@@ -24,8 +24,10 @@ import javax.inject.Inject
 class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.ClickListener {
     private val KEY_PRESENTER_STATE = "KEY_PRESENTER_STATE"
     private val KEY_LIST_TO_DELETE = "KEY_LIST_TO_DELETE"
+    private val KEY_LIST_TO_ARCHIVE = "KEY_LIST_TO_ARCHIVE"
 
     private val REQUEST_DELETE_LIST = 123
+    private val REQUEST_LIST_TO_ARCHIVE = 321
 
     @BindView(R.id.main_activity_recycler_view)
     lateinit var recyclerView: RecyclerView
@@ -92,7 +94,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     }
 
     override fun onBoughtClicked(list: ShoppingList) {
-
+        presenter.saveAsAchieved(list)
     }
 
     override fun onLoaded(list: List<ShoppingList>) {
@@ -106,15 +108,29 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         presenter.fetchLists()
     }
 
+    override fun onSavedAsAchieved(list: ShoppingList) {
+        showToast(R.string.moved_to_archive, Toast.LENGTH_SHORT)
+        presenter.fetchLists()
+    }
+
     override fun showConfirmDelete(list: ShoppingList) {
         val bundle = Bundle()
         bundle.putParcelable(KEY_LIST_TO_DELETE, list)
-        ConfirmDialog.newInstance(REQUEST_DELETE_LIST, messageId = R.string.confirm_delete, bundle = bundle)
-                .show(supportFragmentManager)
+        ConfirmDialog.newInstance(
+                REQUEST_DELETE_LIST,
+                messageId = R.string.confirm_delete,
+                bundle = bundle).show(supportFragmentManager)
     }
 
     override fun showConfirmSaveAsAchieved(list: ShoppingList) {
-
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_LIST_TO_ARCHIVE, list)
+        ConfirmDialog.newInstance(
+                REQUEST_LIST_TO_ARCHIVE,
+                messageId = R.string.confirm_mark_as_achieved,
+                confirmId = R.string.yes,
+                cancelId = R.string.no,
+                bundle = bundle).show(supportFragmentManager)
     }
 
     override fun onFailedToLoad() {
@@ -127,23 +143,25 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         showToast(R.string.failed_to_delete_list)
     }
 
-    override fun onSavedAsAchieved(list: ShoppingList) {
-
-    }
-
     override fun onFailedToSaveAsAchieved(list: ShoppingList) {
-
+        showToast(R.string.failed_mark_as_achieved)
     }
 
     @Subscribe
     fun onConfirmDialogCallback(callback: ConfirmDialog.Callback) {
-        if (callback.confirmed && callback.requestCode == REQUEST_DELETE_LIST) {
-            if (callback.bundle == null) {
-                return
+        if (callback.confirmed) {
+            when (callback.requestCode) {
+                REQUEST_DELETE_LIST -> {
+                    callback.bundle?.apply {
+                        presenter.confirmDelete(getParcelable(KEY_LIST_TO_DELETE))
+                    }
+                }
+                REQUEST_LIST_TO_ARCHIVE -> {
+                    callback.bundle?.apply {
+                        presenter.confirmSaveAsAchieved(getParcelable(KEY_LIST_TO_ARCHIVE))
+                    }
+                }
             }
-
-            val listToDelete: ShoppingList = callback.bundle.getParcelable(KEY_LIST_TO_DELETE)
-            presenter.confirmDelete(listToDelete)
         }
     }
 
