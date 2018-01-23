@@ -15,7 +15,7 @@ import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.dp2px
 import com.stedi.shoppinglist.other.getAppComponent
 import com.stedi.shoppinglist.other.showToast
-import com.stedi.shoppinglist.presenter.MainPresenter
+import com.stedi.shoppinglist.presenter.interfaces.MainPresenter
 import com.stedi.shoppinglist.view.ListSpaceDecoration
 import com.stedi.shoppinglist.view.ShoppingListsAdapter
 import com.stedi.shoppinglist.view.dialogs.ConfirmDialog

@@ -6,6 +6,7 @@ import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
 import com.stedi.shoppinglist.other.toBooleanArray
+import com.stedi.shoppinglist.presenter.interfaces.MainPresenter
 import junit.framework.Assert.*
 import org.junit.Before
 import org.junit.Test

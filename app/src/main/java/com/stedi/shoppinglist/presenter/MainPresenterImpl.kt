@@ -8,6 +8,7 @@ import com.stedi.shoppinglist.di.UiScheduler
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
 import com.stedi.shoppinglist.other.toBooleanArray
+import com.stedi.shoppinglist.presenter.interfaces.MainPresenter
 import rx.Observable
 import rx.Scheduler
 import java.io.Serializable

@@ -5,6 +5,7 @@ import com.squareup.otto.ThreadEnforcer;
 import com.stedi.shoppinglist.model.ShoppingItem;
 import com.stedi.shoppinglist.model.ShoppingList;
 import com.stedi.shoppinglist.model.repository.ShoppingRepository;
+import com.stedi.shoppinglist.presenter.interfaces.MainPresenter;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.stedi.shoppinglist.presenter
+package com.stedi.shoppinglist.presenter.interfaces
 
 import com.stedi.shoppinglist.model.ShoppingList
 

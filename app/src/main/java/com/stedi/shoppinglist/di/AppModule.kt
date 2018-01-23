@@ -6,6 +6,9 @@ import com.stedi.shoppinglist.App
 import com.stedi.shoppinglist.model.repository.ShoppingRepository
 import com.stedi.shoppinglist.other.LockedBus
 import com.stedi.shoppinglist.presenter.*
+import com.stedi.shoppinglist.presenter.interfaces.ArchivePresenter
+import com.stedi.shoppinglist.presenter.interfaces.EditListPresenter
+import com.stedi.shoppinglist.presenter.interfaces.MainPresenter
 import dagger.Module
 import dagger.Provides
 import rx.Scheduler

@@ -18,7 +18,7 @@ import com.stedi.shoppinglist.model.ShoppingItem
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.getAppComponent
 import com.stedi.shoppinglist.other.showToast
-import com.stedi.shoppinglist.presenter.EditListPresenter
+import com.stedi.shoppinglist.presenter.interfaces.EditListPresenter
 import com.stedi.shoppinglist.view.dialogs.ConfirmDialog
 import javax.inject.Inject
 
