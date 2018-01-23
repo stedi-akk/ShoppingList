@@ -2,6 +2,7 @@
     <string name="failed_to_load_lists">Failed to load the lists</string>
     <string name="failed_to_delete_list">Failed to delete the list</string>
     <string name="empty_shopping_lists">There are no current shopping lists yet.\nClick add to create one :)</string>
+    <string name="empty_archive_lists">Here you will see your achieved (bought) lists.</string>
     <string name="save">Save</string>
     <string name="bought">Bought</string>
     <string name="add_more">Add more</string>

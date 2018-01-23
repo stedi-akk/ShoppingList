@@ -12,7 +12,10 @@ import com.stedi.shoppinglist.R
 import com.stedi.shoppinglist.model.ShoppingList
 import com.stedi.shoppinglist.other.asDateFormat
 
-class ShoppingListsAdapter(private val inflater: LayoutInflater, private val listener: ClickListener) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
+class ShoppingListsAdapter(private val inflater: LayoutInflater,
+                           private val listener: ClickListener,
+                           private val extraFunctions: Boolean = true) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
+
     private val list: MutableList<ShoppingList> = ArrayList()
 
     init {
@@ -51,8 +54,14 @@ class ShoppingListsAdapter(private val inflater: LayoutInflater, private val lis
         }
 
         holder.itemView.setOnClickListener(holder)
-        holder.btnDelete.setOnClickListener(holder)
-        holder.btnDone.setOnClickListener(holder)
+
+        if (extraFunctions) {
+            holder.btnDelete.setOnClickListener(holder)
+            holder.btnDone.setOnClickListener(holder)
+        } else {
+            holder.btnDelete.visibility = View.INVISIBLE
+            holder.btnDone.visibility = View.GONE
+        }
     }
 
     override fun getItemId(position: Int) = list[position].id.toLong()
