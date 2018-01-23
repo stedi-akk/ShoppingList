@@ -45,7 +45,7 @@ public class EditListPresenterImplTestJava {
     public void testSaveList() {
         presenter.attach(view);
 
-        ShoppingList list = presenter.newList();
+        ShoppingList list = presenter.prepare(null);
         presenter.save(list, true);
 
         verify(view, times(1)).onSaved(any(ShoppingList.class));
@@ -58,7 +58,7 @@ public class EditListPresenterImplTestJava {
     public void testSaveListFail() throws Exception {
         presenter.attach(view);
 
-        ShoppingList list = presenter.newList();
+        ShoppingList list = presenter.prepare(null);
         doThrow(new Exception("fail")).when(repository).save(any(ShoppingList.class));
         presenter.save(list, true);
 

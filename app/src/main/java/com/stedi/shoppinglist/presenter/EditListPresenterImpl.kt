@@ -43,8 +43,14 @@ class EditListPresenterImpl(
         this.view = null
     }
 
-    override fun newList(): ShoppingList {
-        return ShoppingList(items = mutableListOf(ShoppingItem(name = Constants.NEW_SHOPPING_LIST_ITEM)))
+    override fun prepare(list: ShoppingList?): ShoppingList {
+        if (list == null) {
+            return ShoppingList(items = mutableListOf(ShoppingItem(name = Constants.NEW_SHOPPING_LIST_ITEM)))
+        }
+        if (list.achieved) {
+            view?.disableListEditing()
+        }
+        return list
     }
 
     override fun save(list: ShoppingList, checkIfItemsAchieved: Boolean) {

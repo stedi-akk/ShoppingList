@@ -27,8 +27,21 @@ class EditListPresenterImplTest {
     }
 
     @Test
-    fun testNewListIsNotEmpty() {
-        assertFalse(presenter.newList().items.isEmpty())
+    fun testPrepareListIsNotEmpty() {
+        assertFalse(presenter.prepare(null).items.isEmpty())
+    }
+
+    @Test
+    fun testPrepareAchieved() {
+        presenter.attach(view)
+
+        val list = ShoppingList(achieved = true)
+        presenter.prepare(list)
+
+        verify(view, times(1)).disableListEditing()
+
+        presenter.detach()
+        verifyNoMoreInteractions(view)
     }
 
     @Test

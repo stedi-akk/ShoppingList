@@ -31,6 +31,12 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     @BindView(R.id.edit_list_activity_items_container)
     lateinit var itemsContainer: ViewGroup
 
+    @BindView(R.id.edit_list_activity_btn_save)
+    lateinit var btnSave: View
+
+    @BindView(R.id.edit_list_activity_items_container_btn_add_more)
+    lateinit var btnAddMore: View
+
     @Inject
     lateinit var presenter: EditListPresenter
 
@@ -39,6 +45,8 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     }
 
     private lateinit var pendingList: ShoppingList
+
+    private var editingDisabled = false
 
     companion object {
         private const val KEY_EXTRA_LIST = "KEY_EXTRA_LIST"
@@ -74,7 +82,9 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         }
 
         if (!this::pendingList.isInitialized) {
-            pendingList = intent.getParcelableExtra(KEY_EXTRA_LIST) ?: presenter.newList()
+            pendingList = presenter.prepare(intent.getParcelableExtra(KEY_EXTRA_LIST))
+        } else {
+            presenter.prepare(pendingList)
         }
 
         showTheList()
@@ -105,8 +115,8 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         outState.putParcelable(KEY_PENDING_LIST, pendingList)
     }
 
-    @OnClick(R.id.edit_list_activity_items_container_add)
-    fun onAddItemClick(v: View) {
+    @OnClick(R.id.edit_list_activity_items_container_btn_add_more)
+    fun onAddMoreClick(v: View) {
         inflateNewContainerItem()
     }
 
@@ -114,6 +124,12 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     fun onSaveClick(v: View) {
         pendingList.items = getItemsFromView(false)
         presenter.save(pendingList)
+    }
+
+    override fun disableListEditing() {
+        btnAddMore.visibility = View.GONE
+        btnSave.visibility = View.GONE
+        editingDisabled = true
     }
 
     override fun showSaveAsAchieved(list: ShoppingList) {
@@ -154,18 +170,24 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
             itemView.findViewById<EditText>(R.id.shopping_item_et).apply {
                 isSaveEnabled = false
                 setText(item.name)
+                isFocusable = !editingDisabled
             }
             itemView.findViewById<CheckBox>(R.id.shopping_item_cb).apply {
                 isSaveEnabled = false
                 isChecked = item.achieved
+                isClickable = !editingDisabled
             }
         }
     }
 
     private fun inflateNewContainerItem(): View {
         val itemView = inflater.inflate(R.layout.shopping_item, itemsContainer, false)
-        itemView.findViewById<View>(R.id.shopping_item_btn_delete).setOnClickListener {
-            itemsContainer.removeView(itemView)
+        itemView.findViewById<View>(R.id.shopping_item_btn_delete).apply {
+            if (editingDisabled) {
+                visibility = View.INVISIBLE
+            } else {
+                setOnClickListener { itemsContainer.removeView(itemView) }
+            }
         }
         itemsContainer.post { itemsContainer.addView(itemView) }
         return itemView
