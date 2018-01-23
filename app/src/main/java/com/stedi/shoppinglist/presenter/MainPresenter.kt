@@ -3,7 +3,6 @@ package com.stedi.shoppinglist.presenter
 import com.stedi.shoppinglist.model.ShoppingList
 
 interface MainPresenter : RetainedPresenter<MainPresenter.UIImpl> {
-
     fun fetchLists()
 
     fun delete(list: ShoppingList)

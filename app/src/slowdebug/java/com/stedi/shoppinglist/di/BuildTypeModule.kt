@@ -10,7 +10,6 @@ import dagger.Provides
 
 @Module
 class BuildTypeModule {
-
     @Provides
     fun provideShoppingRepository(@AppContext context: Context): ShoppingRepository {
         return SlowShoppingRepository(DatabaseShoppingRepository(context, Constants.DATABASE_NAME, Constants.DATABASE_VERSION))

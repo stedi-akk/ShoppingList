@@ -13,7 +13,6 @@ import com.stedi.shoppinglist.model.ShoppingList
 import java.sql.SQLException
 
 class DatabaseShoppingRepository(@AppContext context: Context, databaseName: String, databaseVersion: Int) : OrmLiteSqliteOpenHelper(context, databaseName, null, databaseVersion), ShoppingRepository {
-
     override fun onCreate(database: SQLiteDatabase, connectionSource: ConnectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, ShoppingItem::class.java)
