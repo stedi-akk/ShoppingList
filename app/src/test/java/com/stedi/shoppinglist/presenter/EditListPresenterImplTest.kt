@@ -47,7 +47,7 @@ class EditListPresenterImplTest {
         presenter.saving = true
 
         val state = presenter.retain()
-        assertTrue(state.toBoolean(false))
+        assertTrue(state.toBoolean())
 
         presenter.saving = false
 
