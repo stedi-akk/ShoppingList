@@ -19,12 +19,12 @@ class ConfirmDialog : BaseDialog() {
     class Callback(val requestCode: Int, val confirmed: Boolean, val bundle: Bundle?)
 
     companion object {
-        private val KEY_REQUEST_CODE = "KEY_REQUEST_CODE"
-        private val KEY_TITLE_ID = "KEY_TITLE_ID"
-        private val KEY_MESSAGE_ID = "KEY_MESSAGE_ID"
-        private val KEY_CONFIRM_ID = "KEY_CONFIRM_ID"
-        private val KEY_CANCEL_ID = "KEY_CANCEL_ID"
-        private val KEY_BUNDLE = "KEY_BUNDLE"
+        private const val KEY_REQUEST_CODE = "KEY_REQUEST_CODE"
+        private const val KEY_TITLE_ID = "KEY_TITLE_ID"
+        private const val KEY_MESSAGE_ID = "KEY_MESSAGE_ID"
+        private const val KEY_CONFIRM_ID = "KEY_CONFIRM_ID"
+        private const val KEY_CANCEL_ID = "KEY_CANCEL_ID"
+        private const val KEY_BUNDLE = "KEY_BUNDLE"
 
         fun newInstance(requestCode: Int,
                         @StringRes titleId: Int = R.string.confirm, @StringRes messageId: Int,

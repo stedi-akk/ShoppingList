@@ -36,7 +36,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     private lateinit var pendingList: ShoppingList
 
     companion object {
-        private val KEY_EXTRA_LIST = "KEY_EXTRA_LIST"
+        private const val KEY_EXTRA_LIST = "KEY_EXTRA_LIST"
 
         fun start(context: Context, list: ShoppingList? = null) {
             val intent = Intent(context, EditListActivity::class.java)
