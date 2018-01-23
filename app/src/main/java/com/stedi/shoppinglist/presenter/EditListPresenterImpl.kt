@@ -1,5 +1,6 @@
 package com.stedi.shoppinglist.presenter
 
+import android.support.annotation.VisibleForTesting
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import com.stedi.shoppinglist.Constants
@@ -28,7 +29,8 @@ class EditListPresenterImpl(
 
     private var view: EditListPresenter.UIImpl? = null
 
-    private var saving = false
+    @VisibleForTesting
+    var saving = false
 
     override fun attach(view: EditListPresenter.UIImpl) {
         this.view = view

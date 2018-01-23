@@ -38,7 +38,7 @@ public class MainPresenterImplTestJava {
     }
 
     @Test
-    public void testSortedByDate() throws Exception {
+    public void testFetchListsSortedByDate() throws Exception {
         presenter.attach(view);
 
         List<ShoppingList> list = new ArrayList<>();

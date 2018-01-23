@@ -1,5 +1,6 @@
 package com.stedi.shoppinglist.presenter
 
+import android.support.annotation.VisibleForTesting
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import com.stedi.shoppinglist.di.DefaultScheduler
@@ -28,8 +29,11 @@ class MainPresenterImpl(
 
     private var view: MainPresenter.UIImpl? = null
 
-    private var fetching = false
-    private var deleting = false
+    @VisibleForTesting
+    var fetching = false
+
+    @VisibleForTesting
+    var deleting = false
 
     override fun attach(view: MainPresenter.UIImpl) {
         this.view = view
