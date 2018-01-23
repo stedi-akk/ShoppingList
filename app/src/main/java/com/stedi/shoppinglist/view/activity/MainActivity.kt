@@ -1,4 +1,4 @@
-package com.stedi.shoppinglist.view
+package com.stedi.shoppinglist.view.activity
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -16,6 +16,9 @@ import com.stedi.shoppinglist.other.dp2px
 import com.stedi.shoppinglist.other.getAppComponent
 import com.stedi.shoppinglist.other.showToast
 import com.stedi.shoppinglist.presenter.MainPresenter
+import com.stedi.shoppinglist.view.dialogs.ConfirmDialog
+import com.stedi.shoppinglist.view.ListSpaceDecoration
+import com.stedi.shoppinglist.view.ShoppingListsAdapter
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.ClickListener {

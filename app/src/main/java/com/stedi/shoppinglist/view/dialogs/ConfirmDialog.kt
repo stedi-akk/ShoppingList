@@ -1,4 +1,4 @@
-package com.stedi.shoppinglist.view
+package com.stedi.shoppinglist.view.dialogs
 
 import android.app.Dialog
 import android.os.Bundle

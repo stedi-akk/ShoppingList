@@ -1,4 +1,4 @@
-package com.stedi.shoppinglist.view
+package com.stedi.shoppinglist.view.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

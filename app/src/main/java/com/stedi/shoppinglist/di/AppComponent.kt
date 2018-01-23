@@ -1,9 +1,9 @@
 package com.stedi.shoppinglist.di
 
-import com.stedi.shoppinglist.view.BaseActivity
-import com.stedi.shoppinglist.view.ConfirmDialog
-import com.stedi.shoppinglist.view.EditListActivity
-import com.stedi.shoppinglist.view.MainActivity
+import com.stedi.shoppinglist.view.activity.BaseActivity
+import com.stedi.shoppinglist.view.dialogs.ConfirmDialog
+import com.stedi.shoppinglist.view.activity.EditListActivity
+import com.stedi.shoppinglist.view.activity.MainActivity
 import dagger.Component
 import javax.inject.Singleton
 
