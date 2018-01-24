@@ -120,7 +120,8 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     @OnClick(R.id.edit_list_activity_items_container_btn_add_more)
     fun onAddMoreClick(v: View) {
-        inflateNewContainerItem()
+        val item = inflateNewContainerItem()
+        item.findViewById<EditText>(R.id.shopping_item_et).requestFocus()
     }
 
     @OnClick(R.id.edit_list_activity_btn_save)
@@ -169,12 +170,17 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
     private fun showTheList() {
         itemsContainer.removeAllViews()
+        var focusRequested = false
         for (item in pendingList.items) {
             val itemView = inflateNewContainerItem()
             itemView.findViewById<EditText>(R.id.shopping_item_et).apply {
                 isSaveEnabled = false
                 setText(item.name)
                 isFocusable = !editingDisabled
+                if (!focusRequested && isFocusable) {
+                    requestFocus()
+                    focusRequested = true
+                }
             }
             itemView.findViewById<CheckBox>(R.id.shopping_item_cb).apply {
                 isSaveEnabled = false

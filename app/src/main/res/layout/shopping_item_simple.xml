@@ -19,6 +19,7 @@
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:maxLines="1"
+        android:paddingRight="@dimen/common_views_spacing"
         tools:text="Bugatti Chiron" />
 
 </LinearLayout>

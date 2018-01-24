@@ -158,7 +158,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     }
 
     override fun onFailedToSaveAsAchieved(list: ShoppingList) {
-        showToast(R.string.failed_mark_as_achieved)
+        showToast(R.string.failed_mark_as_bought)
     }
 
     @Subscribe

@@ -3,7 +3,6 @@ package com.stedi.shoppinglist.presenter
 import android.support.annotation.VisibleForTesting
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
-import com.stedi.shoppinglist.Constants
 import com.stedi.shoppinglist.di.DefaultScheduler
 import com.stedi.shoppinglist.di.UiScheduler
 import com.stedi.shoppinglist.model.ShoppingItem
@@ -45,7 +44,7 @@ class EditListPresenterImpl(
 
     override fun prepare(list: ShoppingList?): ShoppingList {
         if (list == null) {
-            return ShoppingList(items = mutableListOf(ShoppingItem(name = Constants.NEW_SHOPPING_LIST_ITEM)))
+            return ShoppingList(items = mutableListOf(ShoppingItem()))
         }
         if (list.achieved) {
             view?.disableListEditing()

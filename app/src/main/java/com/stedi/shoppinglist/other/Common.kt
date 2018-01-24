@@ -6,7 +6,6 @@ import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.widget.Toast
 import com.stedi.shoppinglist.App
-import com.stedi.shoppinglist.Constants
 import com.stedi.shoppinglist.di.AppComponent
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -60,6 +59,6 @@ fun Long.asDateFormat(): String {
 
 private object LazyCommon {
     val dateFormat: SimpleDateFormat by lazy {
-        SimpleDateFormat(Constants.TIME_FORMAT)
+        SimpleDateFormat("dd.MM.yyyy HH:mm")
     }
 }
