@@ -89,7 +89,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_show_archive_list) {
+        if (item.itemId == R.id.main_activity_menu_show_archive_list) {
             startActivity(Intent(this, ArchiveActivity::class.java))
             return true
         }

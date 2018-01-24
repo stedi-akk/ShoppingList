@@ -3,8 +3,10 @@ package com.stedi.shoppinglist.view.activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.stedi.shoppinglist.R
@@ -31,6 +33,8 @@ class ArchiveActivity : BaseActivity(), ArchivePresenter.UIImpl, ShoppingListsAd
 
     private lateinit var adapter: ShoppingListsAdapter
 
+    private var loadedList = emptyList<ShoppingList>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this)
@@ -52,12 +56,14 @@ class ArchiveActivity : BaseActivity(), ArchivePresenter.UIImpl, ShoppingListsAd
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.archive_activity, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.archive_activity_menu_clear_all).isVisible = !loadedList.isEmpty()
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onStart() {
@@ -76,28 +82,47 @@ class ArchiveActivity : BaseActivity(), ArchivePresenter.UIImpl, ShoppingListsAd
         outState.putSerializable(KEY_PRESENTER_STATE, presenter.retain())
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.archive_activity_menu_clear_all -> {
+                presenter.clear(loadedList)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onListClicked(list: ShoppingList) {
         EditListActivity.start(this, list)
     }
 
     override fun onLoaded(list: List<ShoppingList>) {
+        loadedList = list
         adapter.set(list)
-        refreshEmptyView()
+        refreshEmptyViewAndMenu()
     }
 
     override fun onCleared() {
+        showToast(R.string.cleared, Toast.LENGTH_SHORT)
+        presenter.fetchLists()
     }
 
     override fun onFailedToLoad() {
         showToast(R.string.failed_to_load_lists)
-        refreshEmptyView()
+        refreshEmptyViewAndMenu()
     }
 
     override fun onFailedToClear() {
+        showToast(R.string.failed_to_clear)
     }
 
-    private fun refreshEmptyView() {
-        emptyView.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.GONE
+    private fun refreshEmptyViewAndMenu() {
+        emptyView.visibility = if (loadedList.isEmpty()) View.VISIBLE else View.GONE
+        invalidateOptionsMenu()
     }
 
     override fun onDeleteClicked(list: ShoppingList) {}
