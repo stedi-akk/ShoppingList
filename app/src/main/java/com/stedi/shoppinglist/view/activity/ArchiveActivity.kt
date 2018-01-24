@@ -85,9 +85,15 @@ class ArchiveActivity : BaseActivity(), ArchivePresenter.UIImpl, ShoppingListsAd
         refreshEmptyView()
     }
 
+    override fun onCleared() {
+    }
+
     override fun onFailedToLoad() {
         showToast(R.string.failed_to_load_lists)
         refreshEmptyView()
+    }
+
+    override fun onFailedToClear() {
     }
 
     private fun refreshEmptyView() {
