@@ -115,7 +115,10 @@ class EditListPresenterImpl(
         }
     }
 
-    override fun restore(state: Serializable) {
+    override fun restore(state: Serializable, newProcess: Boolean) {
+        if (newProcess) {
+            return
+        }
         saving = state.toBoolean()
     }
 

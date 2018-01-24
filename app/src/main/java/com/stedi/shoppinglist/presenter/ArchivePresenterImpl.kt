@@ -108,7 +108,10 @@ class ArchivePresenterImpl(
         }
     }
 
-    override fun restore(state: Serializable) {
+    override fun restore(state: Serializable, newProcess: Boolean) {
+        if (newProcess) {
+            return
+        }
         val array = state.toBooleanArray(2) ?: return
         fetching = array[0]
         cleaning = array[1]

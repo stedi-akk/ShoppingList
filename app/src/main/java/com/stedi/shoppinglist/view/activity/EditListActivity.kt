@@ -74,7 +74,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
         savedInstanceState?.apply {
             getSerializable(KEY_PRESENTER_STATE)?.apply {
-                presenter.restore(this)
+                presenter.restore(this, createdAfterProcessKill)
             }
             getParcelable<ShoppingList>(KEY_PENDING_LIST)?.apply {
                 pendingList = this

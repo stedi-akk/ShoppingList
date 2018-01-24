@@ -48,7 +48,7 @@ class ArchiveActivity : BaseActivity(), ArchivePresenter.UIImpl, ShoppingListsAd
 
         presenter.attach(this)
         savedInstanceState?.getSerializable(KEY_PRESENTER_STATE)?.apply {
-            presenter.restore(this)
+            presenter.restore(this, createdAfterProcessKill)
         }
     }
 

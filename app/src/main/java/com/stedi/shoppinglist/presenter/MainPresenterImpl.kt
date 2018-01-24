@@ -156,7 +156,10 @@ class MainPresenterImpl(
         }
     }
 
-    override fun restore(state: Serializable) {
+    override fun restore(state: Serializable, newProcess: Boolean) {
+        if (newProcess) {
+            return
+        }
         val array = state.toBooleanArray(3) ?: return
         fetching = array[0]
         deleting = array[1]

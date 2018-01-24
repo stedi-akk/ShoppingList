@@ -8,11 +8,24 @@ import com.stedi.shoppinglist.other.getAppComponent
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity() {
+    private companion object {
+        private val createdActivities = HashSet<String>()
+    }
+
     @Inject
     lateinit var bus: Bus
 
+    protected var createdAfterProcessKill = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val activityClassName = javaClass.simpleName
+        if (!createdActivities.contains(activityClassName)) {
+            createdActivities.add(activityClassName)
+            createdAfterProcessKill = savedInstanceState != null
+        }
+
         super.onCreate(savedInstanceState)
+
         getAppComponent().inject(this)
     }
 

@@ -9,7 +9,7 @@ interface Presenter<in V : UI> {
 }
 
 interface RetainedPresenter<in V : UI> : Presenter<V> {
-    fun restore(state: java.io.Serializable)
+    fun restore(state: java.io.Serializable, newProcess: Boolean = false)
 
     fun retain(): java.io.Serializable
 }

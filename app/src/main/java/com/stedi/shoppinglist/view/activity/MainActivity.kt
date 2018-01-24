@@ -63,7 +63,7 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
         presenter.attach(this)
         savedInstanceState?.getSerializable(KEY_PRESENTER_STATE)?.apply {
-            presenter.restore(this)
+            presenter.restore(this, createdAfterProcessKill)
         }
     }
 
