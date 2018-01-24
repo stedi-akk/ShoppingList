@@ -19,7 +19,9 @@
 
         <activity android:name=".view.activity.EditListActivity" />
 
-        <activity android:name=".view.activity.ArchiveActivity" />
+        <activity
+            android:name=".view.activity.ArchiveActivity"
+            android:label="@string/archive" />
 
     </application>
 

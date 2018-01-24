@@ -144,8 +144,6 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         ConfirmDialog.newInstance(
                 REQUEST_LIST_TO_ARCHIVE,
                 messageId = R.string.confirm_mark_as_achieved,
-                confirmId = R.string.yes,
-                cancelId = R.string.no,
                 bundle = bundle).show(supportFragmentManager)
     }
 

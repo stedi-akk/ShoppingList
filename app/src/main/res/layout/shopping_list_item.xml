@@ -46,9 +46,10 @@
         <Button
             android:id="@+id/shopping_list_item_btn_bought"
             style="@style/Widget.AppCompat.Button.Borderless"
+            android:textColor="@color/color_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bought"
+            android:text="@string/mark_bought"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/shopping_list_item_items_container" />
 

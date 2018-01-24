@@ -70,6 +70,9 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val extraList: ShoppingList? = intent.getParcelableExtra(KEY_EXTRA_LIST)
+        setTitle(if (extraList == null) R.string.new_list else R.string.edit_list)
+
         presenter.attach(this)
 
         savedInstanceState?.apply {
@@ -82,7 +85,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         }
 
         if (!this::pendingList.isInitialized) {
-            pendingList = presenter.prepare(intent.getParcelableExtra(KEY_EXTRA_LIST))
+            pendingList = presenter.prepare(extraList)
         } else {
             presenter.prepare(pendingList)
         }
@@ -127,6 +130,7 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
     }
 
     override fun disableListEditing() {
+        setTitle(R.string.view_list)
         btnAddMore.visibility = View.GONE
         btnSave.visibility = View.GONE
         editingDisabled = true
