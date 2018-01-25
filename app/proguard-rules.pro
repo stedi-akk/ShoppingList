@@ -33,11 +33,11 @@
 -keepclassmembers interface com.j256.** {*;}
 -keepattributes *Annotation*
 -keep class com.stedi.shoppinglist.model.repository.DatabaseShoppingRepository
--keepclassmembers com.stedi.shoppinglist.model.repository.DatabaseShoppingRepository
+-keepclassmembers class com.stedi.shoppinglist.model.repository.DatabaseShoppingRepository
 -keep class com.stedi.shoppinglist.model.ShoppingItem
--keepclassmembers com.stedi.shoppinglist.model.ShoppingItem
+-keepclassmembers class com.stedi.shoppinglist.model.ShoppingItem
 -keep class com.stedi.shoppinglist.model.ShoppingList
--keepclassmembers com.stedi.shoppinglist.model.ShoppingList
+-keepclassmembers class com.stedi.shoppinglist.model.ShoppingList
 
 # RxJava
 -dontwarn sun.misc.**
