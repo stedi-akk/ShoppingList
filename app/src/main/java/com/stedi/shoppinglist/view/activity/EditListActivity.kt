@@ -93,14 +93,6 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         showTheList()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onPause() {
         super.onPause()
         pendingList.items = getItemsFromView(true)
@@ -116,6 +108,14 @@ class EditListActivity : BaseActivity(), EditListPresenter.UIImpl {
         super.onSaveInstanceState(outState)
         outState.putSerializable(KEY_PRESENTER_STATE, presenter.retain())
         outState.putParcelable(KEY_PENDING_LIST, pendingList)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     @OnClick(R.id.edit_list_activity_items_container_btn_add_more)

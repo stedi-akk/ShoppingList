@@ -46,6 +46,8 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
 
     private lateinit var adapter: ShoppingListsAdapter
 
+    private var loaded = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAppComponent().inject(this)
@@ -70,6 +72,11 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_activity, menu)
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.main_activity_menu_show_archive_list).isVisible = loaded
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onStart() {
@@ -116,7 +123,8 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onLoaded(list: List<ShoppingList>) {
         fab.show(fabShowHideListener)
         adapter.set(list)
-        refreshEmptyView()
+        loaded = true
+        refreshEmptyViewAndMenu()
     }
 
     override fun onDeleted(list: ShoppingList) {
@@ -150,7 +158,8 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
     override fun onFailedToLoad() {
         fab.show(fabShowHideListener)
         showToast(R.string.failed_to_load_lists)
-        refreshEmptyView()
+        loaded = true
+        refreshEmptyViewAndMenu()
     }
 
     override fun onFailedToDelete(list: ShoppingList) {
@@ -179,8 +188,9 @@ class MainActivity : BaseActivity(), MainPresenter.UIImpl, ShoppingListsAdapter.
         }
     }
 
-    private fun refreshEmptyView() {
+    private fun refreshEmptyViewAndMenu() {
         emptyView.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.GONE
+        invalidateOptionsMenu()
     }
 
     private val recyclerScrollListener = object : RecyclerView.OnScrollListener() {
