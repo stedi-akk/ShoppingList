@@ -19,3 +19,43 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Kotlin
+-dontwarn kotlin.**
+
+# OrmLite
+-dontwarn com.j256.**
+-keep class com.j256.**
+-keepclassmembers class com.j256.** {*;}
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** {*;}
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** {*;}
+-keepattributes *Annotation*
+-keep class com.stedi.shoppinglist.model.repository.DatabaseShoppingRepository
+-keepclassmembers com.stedi.shoppinglist.model.repository.DatabaseShoppingRepository
+-keep class com.stedi.shoppinglist.model.ShoppingItem
+-keepclassmembers com.stedi.shoppinglist.model.ShoppingItem
+-keep class com.stedi.shoppinglist.model.ShoppingList
+-keepclassmembers com.stedi.shoppinglist.model.ShoppingList
+
+# RxJava
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+-dontnote rx.internal.util.PlatformDependent
+
+# Otto
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}
