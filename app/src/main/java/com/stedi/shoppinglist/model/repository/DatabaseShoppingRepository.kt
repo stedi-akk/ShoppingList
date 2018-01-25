@@ -40,6 +40,7 @@ class DatabaseShoppingRepository(@AppContext context: Context, databaseName: Str
             verifySaved(getDao(ShoppingList::class.java).createOrUpdate(list))
             val itemsDao: Dao<ShoppingItem, Int> = getDao(ShoppingItem::class.java)
             for (item in list.items) {
+                // required by OrmLite
                 item.fromList = list
                 verifySaved(itemsDao.createOrUpdate(item))
             }
@@ -53,6 +54,7 @@ class DatabaseShoppingRepository(@AppContext context: Context, databaseName: Str
             verifyDeleted(getDao(ShoppingList::class.java).delete(list))
             val itemsDao: Dao<ShoppingItem, Int> = getDao(ShoppingItem::class.java)
             for (item in list.items) {
+                // required by OrmLite
                 verifyDeleted(itemsDao.delete(item))
             }
         }

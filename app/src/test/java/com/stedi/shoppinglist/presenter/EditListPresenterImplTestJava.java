@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 // because Kotlin does not allow null mocking for non-null arguments
+// therefore, it is better to write such tests in Java, to not waste time
 public class EditListPresenterImplTestJava {
     private ShoppingRepository repository;
     private EditListPresenterImpl presenter;

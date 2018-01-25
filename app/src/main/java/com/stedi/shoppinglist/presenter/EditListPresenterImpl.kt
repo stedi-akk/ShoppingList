@@ -25,6 +25,8 @@ class EditListPresenterImpl(
 
         private val bus: Bus) : EditListPresenter {
 
+    // in case if current presenter will be dead, we can still get its late events by using event bus
+    // it is wrong to cancel background thread jobs, just because of 'lifecycle'
     class SaveListEvent(val list: ShoppingList, val t: Throwable? = null)
 
     private var view: EditListPresenter.UIImpl? = null
@@ -116,6 +118,8 @@ class EditListPresenterImpl(
 
     override fun restore(state: Serializable, newProcess: Boolean) {
         if (newProcess) {
+            // because the saved state is threads related
+            // but this should be changed, if presenter will hold other kind of data
             return
         }
         saving = state.toBoolean()

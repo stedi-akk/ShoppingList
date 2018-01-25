@@ -2,6 +2,8 @@ package com.stedi.shoppinglist.model.repository
 
 import com.stedi.shoppinglist.model.ShoppingList
 
+// helpful in manual tests
+// decorator pattern is used to wrap any kind of ShoppingRepository
 class SlowShoppingRepository(private val target: ShoppingRepository) : ShoppingRepository {
     override fun save(list: ShoppingList) {
         Thread.sleep(3000)

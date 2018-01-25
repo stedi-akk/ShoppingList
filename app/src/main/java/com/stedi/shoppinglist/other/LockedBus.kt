@@ -8,10 +8,16 @@ class LockedBus : Bus() {
 
     private var locked = false
 
+    /**
+     * New events will not be delivered until [unlock]
+     */
     fun lock() {
         locked = true
     }
 
+    /**
+     * Normal events work, but if there are any of locked events, they will be delivered immediately
+     */
     fun unlock() {
         locked = false
         releasePending()

@@ -24,10 +24,10 @@ class MainPresenterImpl(
 
         private val bus: Bus) : MainPresenter {
 
+    // in case if current presenter will be dead, we can still get its late events by using event bus
+    // it is wrong to cancel background thread jobs, just because of 'lifecycle'
     class FetchListsEvent(val list: List<ShoppingList> = emptyList(), val t: Throwable? = null)
-
     class DeleteListEvent(val list: ShoppingList, val t: Throwable? = null)
-
     class SaveAsAchievedEvent(val list: ShoppingList, val t: Throwable? = null)
 
     private var view: MainPresenter.UIImpl? = null
@@ -158,6 +158,8 @@ class MainPresenterImpl(
 
     override fun restore(state: Serializable, newProcess: Boolean) {
         if (newProcess) {
+            // because the saved state is threads related
+            // but this should be changed, if presenter will hold other kind of data
             return
         }
         val array = state.toBooleanArray(3) ?: return

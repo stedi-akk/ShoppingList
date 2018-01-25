@@ -27,6 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:inputType="text"
         app:layout_constraintLeft_toRightOf="@+id/shopping_item_cb"
         app:layout_constraintRight_toLeftOf="@+id/shopping_item_btn_delete"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />

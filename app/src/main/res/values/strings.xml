@@ -1,12 +1,15 @@
 <resources>
     <string name="failed_to_load_lists">Failed to load the lists</string>
     <string name="failed_to_delete_list">Failed to delete the list</string>
+    <string name="failed_to_save_list">Failed to save the list</string>
+    <string name="failed_mark_as_bought">Failed to mark as bought</string>
+    <string name="failed_to_clear">Failed to clear</string>
+
     <string name="empty_shopping_lists">There are no current shopping lists yet.\nClick add to create one :)</string>
     <string name="empty_archive_lists">Here you will see your bought lists.</string>
     <string name="save">Save</string>
     <string name="mark_bought">Mark as bought</string>
     <string name="add_more">Add more</string>
-    <string name="failed_to_save_list">Failed to save the list</string>
     <string name="please_add_items">Sorry, you cannot save empty lists</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -19,10 +22,8 @@
     <string name="deleted">Deleted</string>
     <string name="cleared">Cleared</string>
     <string name="moved_to_archive">Moved to the archive</string>
-    <string name="failed_mark_as_bought">Failed to mark as bought</string>
     <string name="archive">Archive</string>
     <string name="clear_all">Clear all</string>
-    <string name="failed_to_clear">Failed to clear</string>
     <string name="new_list">New list</string>
     <string name="edit_list">Edit list</string>
     <string name="view_list">View list</string>

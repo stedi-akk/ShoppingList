@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- TextView compound drawable does not support vector drawables -->
     <LinearLayout
         android:id="@+id/main_activity_empty_view"
         android:layout_width="wrap_content"

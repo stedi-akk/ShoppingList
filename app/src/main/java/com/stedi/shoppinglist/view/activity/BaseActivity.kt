@@ -15,9 +15,14 @@ abstract class BaseActivity : AppCompatActivity() {
     @Inject
     lateinit var bus: Bus
 
+    /**
+     * true, if [onCreate] was called after process kill
+     */
     protected var createdAfterProcessKill = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // if savedInstanceState != null, and some static activity data is not present,
+        // then consider this onCreate as create after process kill
         val activityClassName = javaClass.simpleName
         if (!createdActivities.contains(activityClassName)) {
             createdActivities.add(activityClassName)
@@ -32,6 +37,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (bus is LockedBus) {
+            // allow events only if application is visible to the user
             (bus as LockedBus).unlock()
         }
     }
@@ -39,6 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         if (bus is LockedBus) {
+            // block new events until onResume will be called again
             (bus as LockedBus).lock()
         }
     }

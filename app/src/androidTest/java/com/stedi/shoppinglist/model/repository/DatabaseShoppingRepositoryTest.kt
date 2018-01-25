@@ -11,6 +11,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+// general database tests only (because of time limitation)
+// i.e. not every cases are tested
 @RunWith(AndroidJUnit4::class)
 class DatabaseShoppingRepositoryTest {
     private val DATABASE_NAME = "test_database"
